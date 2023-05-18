@@ -1,9 +1,9 @@
 import { WebSocketServer, createWebSocketStream } from 'ws';
 import 'dotenv/config';
 import internal from 'stream';
-
 import { httpServer } from '../http_server/index';
 import { wsHandler } from '../controller/wsHandler';
+
 const WS_PORT = Number(process.env.PORT || 8080);
 
 export let duplex: internal.Duplex;
@@ -19,7 +19,8 @@ wss.on('connection', (ws) => {
     try {
       console.log('Command from client', data.toString());
       const command = data.toString();
-      wsHandler(command);
+      const msg = await wsHandler(command);
+      ws.send(String(msg))
     }
     catch (error) {
       console.log(error);

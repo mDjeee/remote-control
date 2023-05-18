@@ -14,7 +14,11 @@ export async function move(command: string, distance: number ) {
     case 'mouse_right':
       await mouse.move(right(distance))
       break;
+    case 'mouse_position':
+      const res = await mouse.getPosition();
+      return `${command} ${res.x},${res.y}`;
     default:
       break;
   }
+  return command;
 }
