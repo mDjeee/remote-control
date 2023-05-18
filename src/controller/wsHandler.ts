@@ -1,3 +1,4 @@
+import { Button, mouse } from '@nut-tree/nut-js';
 import { drawCircle, drawRectangle, drawSquare } from './draw';
 import { move } from './mouse';
 
@@ -8,6 +9,7 @@ export async function wsHandler(cli: string) {
     const distance = Number(parameters[1]);
     return await move(cmd, distance);
   } else if (cmd.startsWith('draw')) {
+    await mouse.pressButton(Button.LEFT);
     const width = Number(parameters[1]);
     switch (cmd) {
       case 'draw_rectangle':
@@ -23,6 +25,7 @@ export async function wsHandler(cli: string) {
       default:
         break;
     }
+    await mouse.releaseButton(Button.LEFT);
     return cmd;
   }
 }

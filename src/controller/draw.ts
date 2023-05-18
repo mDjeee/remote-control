@@ -16,7 +16,11 @@ export async function drawSquare(width: number) {
 }
 
 export async function drawCircle(width: number) {
-  mouse.config.mouseSpeed = 100;
-  const slow = new Point(100, 150);
-  await mouse.move(straightTo(slow))
+  const { x, y } = await mouse.getPosition();
+  for(let i=0; i<360; i++) {
+    const rad = (i/180) * Math.PI;
+    const cx = width * Math.cos(rad) + x - width;
+    const cy = width * Math.sin(rad) + y;
+    await mouse.move(straightTo(new Point(cx, cy)));
+  }
 }
