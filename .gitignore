@@ -6,6 +6,9 @@
 Thumbs.db
 [Dd]esktop.ini
 
+# environment
+.env
+
 # Links
 *.lnk
 .idea/
