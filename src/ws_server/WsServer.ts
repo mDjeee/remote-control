@@ -3,6 +3,7 @@ import 'dotenv/config';
 import internal from 'stream';
 
 import { httpServer } from '../http_server/index';
+import { wsHandler } from '../controller/wsHandler';
 const WS_PORT = Number(process.env.PORT || 8080);
 
 export let duplex: internal.Duplex;
@@ -12,14 +13,13 @@ export const wss = new WebSocketServer({ port: WS_PORT });
 wss.on('connection', (ws) => {
   ws.on('error', console.error);
 
-  ws.on('message', (data) => {
-    console.log(`received: ${data}`);
-  });
   const duplex = createWebSocketStream(ws, {decodeStrings: false});
 
   duplex.on('data', async (data: Buffer) => {
     try {
       console.log('Command from client', data.toString());
+      const command = data.toString();
+      wsHandler(command);
     }
     catch (error) {
       console.log(error);
