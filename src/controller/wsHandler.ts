@@ -1,6 +1,7 @@
 import { Button, mouse } from '@nut-tree/nut-js';
 import { drawCircle, drawRectangle, drawSquare } from './draw';
 import { move } from './mouse';
+import { printScr } from './printScr';
 
 export async function wsHandler(cli: string) {
   const parameters = cli.split(' ');
@@ -27,5 +28,9 @@ export async function wsHandler(cli: string) {
     }
     await mouse.releaseButton(Button.LEFT);
     return cmd;
+  } else if (cmd.startsWith('prnt_scrn')) {
+    const imgData = await printScr();
+    const res = `${cmd} ${imgData}`
+    return res;
   }
 }

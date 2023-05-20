@@ -11,6 +11,7 @@ export let duplex: internal.Duplex;
 export const wss = new WebSocketServer({ port: WS_PORT });
 
 wss.on('connection', (ws) => {
+  console.log('New socket connected ...');
   ws.on('error', console.error);
 
   const duplex = createWebSocketStream(ws, {decodeStrings: false});
@@ -19,8 +20,10 @@ wss.on('connection', (ws) => {
     try {
       console.log('Command from client', data.toString());
       const command = data.toString();
+      console.log(command);
       const msg = await wsHandler(command);
-      ws.send(String(msg))
+      if(msg)
+      ws.send(msg)
     }
     catch (error) {
       console.log(error);
@@ -29,7 +32,7 @@ wss.on('connection', (ws) => {
 
   duplex.on('end', () => {
     console.log('Socket is closed');
-  })
+  });
 });
 
 process.on('SIGINT', () => {
