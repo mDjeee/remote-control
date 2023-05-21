@@ -41,8 +41,20 @@ process.on('SIGINT', () => {
   wss.clients.forEach((ws) => {
     ws.send('server is closed');
     ws.close();
-    wss.close(() => {
-      httpServer.close(() => process.exit(0));
-    })
-  })
-})
+  });
+  wss.close(() => {
+    httpServer.close(() => process.exit(0));
+  });
+});
+
+process.on('SIGTERM', () => {
+  console.log('All connections closed');
+
+  wss.clients.forEach((ws) => {
+    ws.send('server is closed');
+    ws.close();
+  });
+  wss.close(() => {
+    httpServer.close(() => process.exit(0));
+  });
+});

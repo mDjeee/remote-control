@@ -7,7 +7,7 @@
     "scripts": {
         "start": "ts-node ./index.ts",
         "start:dev": "nodemon ./index.ts",
-        "start:prod": "npm run build && node ./dist/src/index.js",
+        "start:prod": "npm run build && node -r ts-node/register/transpile-only --es-module-specifier-resolution=node -r tsconfig-paths/register ./dist/src/index.js",
         "build": "tsc -p tsconfig.prod.json",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -19,6 +19,7 @@
         "@types/ws": "^8.5.4",
         "nodemon": "^2.0.16",
         "ts-node": "^10.9.1",
+        "tsconfig-paths": "^4.2.0",
         "typescript": "^5.0.4"
     },
     "dependencies": {
